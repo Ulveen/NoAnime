@@ -1,9 +1,11 @@
 import { useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { SEARCH_ANIME } from "../query/SearchAnime";
+import { Theme } from "../context/Theme";
 
 function DetailContent({ anime }) {
+  let theme = useContext(Theme)
   const [favorites, addFavorites] = useState(() => {return (localStorage.getItem("anime") === null) ? [] : JSON.parse(localStorage.getItem("anime"))});
   const [isFavorite, setFavorite] = useState(false);
 
@@ -51,7 +53,8 @@ function DetailContent({ anime }) {
 
   return (
     <div>
-      <h1 className="white">Detail</h1>
+      <div className="fill" style={theme}></div>
+      <h1 className="title" style={theme.title}>Detail</h1>
       <div className="detail">
         <img className="image" src={anime.coverImage.medium} alt="" />
         <div>
@@ -61,13 +64,11 @@ function DetailContent({ anime }) {
           {isFavorite ? (
             <form onSubmit={remove}>
               <h3>Favorited</h3>
-              <button>Remove</button>
+              <button className="button2">Remove</button>
             </form>
           ) : (
             <form onSubmit={Add}>
-              <button>
-                <h3>Add to Favorite</h3>
-              </button>
+              <button className="button2"> Add to Favorite </button>
             </form>
           )}
         </div>

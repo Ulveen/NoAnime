@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { SEARCH_TITLE } from "../query/SearchTitle";
+import { Theme } from '../context/Theme';
 import ListComponent from "./ListComponent";
 
 function ShowSearch({ title }) {
@@ -29,27 +30,31 @@ function ShowSearch({ title }) {
 }
 
 export default function Search() {
+  let theme = useContext(Theme)
   const [title, setTitle] = useState("");
   const [searched, setSearched] = useState(false);
-
+  
   const handleSearch = (e) => {
     e.preventDefault();
     setSearched(true);
   };
-
+  
   return (
-    <div className="searchPage">
-      <h1 className='white'>Search</h1>
-      <div className="search">
-        <form onSubmit={handleSearch}>
-        <input type="text" value={title} onChange={(e) => {
-          setTitle(e.target.value);
-          setSearched(false);
-        }} placeholder="Anime Title" />
-          <button type="submit">Search Anime</button>
-        </form>
+    <div>
+      <div className="searchPage" style={theme}>
+        <h1 className='title' style={theme.title}>Search</h1>
+        <div className="search">
+          <form onSubmit={handleSearch}>
+          <input type="text" value={title} onChange={(e) => {
+            setTitle(e.target.value);
+            setSearched(false);
+          }} placeholder="Anime Title" />
+            <button type="submit">Search Anime</button>
+          </form>
+        </div>
+        {searched && <ShowSearch title={title} />}
       </div>
-      {searched && <ShowSearch title={title} />}
+      <div className="fill" style={theme}></div>
     </div>
   );
 }
