@@ -16,6 +16,7 @@ export default function Favorites(){
     else{
         return(
             <div>
+                <div className="fill" style={theme}></div>
                 <h1 className='title' style={theme.title}>Favorites</h1>
                 {list.map((anime, index) => {
                     return <ListComponent anime = {anime}/>
